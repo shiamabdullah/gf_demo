@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'predict',
-    'corsheaders'
+    'corsheaders',
+    'tensorflow',
+    'keras',
 
 ]
 
