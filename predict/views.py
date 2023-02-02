@@ -52,7 +52,6 @@ def predict_post_prev(request):
                 # 'country': 'beol',
                 'city': 'beol'
                 }
-
     # Create a new dictionary with only the keys in new_keys, and with their names mapped to the new names
     new_data = {new_keys.get(k, k): v for k,
                 v in request.data.items() if k in new_keys}
@@ -123,7 +122,7 @@ def predict_post(request):
     # print("df", input_data_as_df)
     x1_test['beol'] = my_oe.transform(x1_test[['beol']])
     x1_pred = x1.predict(x1_test)
-    print("x1_pred  "+str(list(x1_pred)))
+    # print("x1_pred  "+str(list(x1_pred)))
 
     ## SPLIT THE PREDICTED ARRAY AND SHOW THE RESULT ###################################################
     units_dict = {'achieved_frequency_ghz': 'Ghz', 'vnom': 'V',
@@ -140,12 +139,19 @@ def predict_post(request):
             model_used_cols = model_used.split("TT")
     model_used_cols.remove("")
 
-    # for m in range(len(model_used_cols)):
-    #     # pred[model_used_cols[m]]=
-    #     value = str(x1_pred[m]).replace(
-    #         "array[[", "").replace("]], dtype=float32)", "")
-    #     value = value.replace("[[", "").replace("]]", "")
-    #     if model_used_cols[m] == "total_area_of_chip":
-    #         value = float(value)*10000
-    print(x1_pred)
-    return JsonResponse({"output": model_to_load})
+    output = {}
+    for m in range(len(model_used_cols)):
+        value = str(x1_pred[m]).replace(
+            "array[[", "").replace("]], dtype=float32)", "")
+        value = value.replace("[[", "").replace("]]", "")
+
+        if model_used_cols[m] == "total_area_of_chip":
+            value = float(value)*10000
+
+        output[model_used_cols[m]] = str(
+            value)+" "+units_dict[model_used_cols[m]]
+
+    print(output)
+    # arr = [{'column_name': k, 'value': v} for k, v in output.items()]
+
+    return JsonResponse({"output": output})
