@@ -154,4 +154,4 @@ def predict_post(request):
     print(output)
     # arr = [{'column_name': k, 'value': v} for k, v in output.items()]
 
-    return JsonResponse({"output": output})
+    return JsonResponse({"result": output})
