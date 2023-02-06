@@ -52,10 +52,12 @@ def predict_post_prev(request):
                 # 'country': 'beol',
                 'city': 'beol'
                 }
+
+    print("assd", request.data)
     # Create a new dictionary with only the keys in new_keys, and with their names mapped to the new names
     new_data = {new_keys.get(k, k): v for k,
                 v in request.data.items() if k in new_keys}
-    input_data_as_df = pd.DataFrame(new_data, index=[0])
+    input_data_as_df = pd.DataFrame(request.data, index=[0])
     cols = list(input_data_as_df.columns)
 
     model_to_load = ""
@@ -90,7 +92,9 @@ def predict_post(request):
     ##### GET THE MODEL TO BE LOADED ACCORDING TO THE INPUTS ############
     new_data = {new_keys.get(k, k): v for k,
                 v in request.data.items() if k in new_keys}
-    input_data_as_df = pd.DataFrame(new_data, index=[0])
+    print(new_data, type(new_data))
+    input_data_as_df = pd.DataFrame(request.data, index=[0])
+
     cols = list(input_data_as_df.columns)
 
     model_to_load = ""
