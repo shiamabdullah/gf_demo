@@ -1,0 +1,2 @@
+Comp,Tech,Type,Mem_Type,Port_Type,Capacity_kb,Words,Bits,VDDPE,VDDCE,Corner
+ARM,12LPP,rf_sp_rvt_mvt,RF,Single,18,512,36,0.88,0.88,ffg_0.88v_125c

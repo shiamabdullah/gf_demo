@@ -21,5 +21,6 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/predictview/', predict_views.predict_view, name='getpredict'),
-    path('api/predict/', predict_views.predict_post, name='predict_post')
+    path('api/predict/', predict_views.predict_post, name='predict_post'),
+    path('api/predict-memory/', predict_views.mem_predict_post, name='predict_memory')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

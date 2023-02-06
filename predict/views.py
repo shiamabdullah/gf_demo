@@ -155,3 +155,31 @@ def predict_post(request):
     # arr = [{'column_name': k, 'value': v} for k, v in output.items()]
 
     return JsonResponse({"result": output})
+
+
+@api_view(['POST'])
+def mem_predict_post(request):
+    # loading the models directory
+    file_path = 'static/memory_model/'
+    validate_csv_path = file_path+'validate_data_MemCompData_22FDX_12LPP_1.csv'
+    mem_validate = pd.read_csv(validate_csv_path)
+    del mem_validate['Words']
+
+    with open(file_path + "encoder.pkl", 'rb') as file:
+        my_oe = pickle.load(file)
+
+    print(my_oe)
+    category_columns_list = ['Comp', 'Tech',
+                             'Type', 'Mem_Type', 'Port_Type', 'Corner']
+    mem_validate[category_columns_list] = my_oe.fit_transform(
+        mem_validate[category_columns_list])
+
+    mem_validate
+
+    model_name = "mem_model"
+
+    x1 = keras.models.load_model(file_path+'gen_model/'+model_name)
+    x1_pred = x1.predict(mem_validate)
+    x1_pred
+    print(x1_pred)
+    return Response({"result": request.data})
